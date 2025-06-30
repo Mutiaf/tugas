@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Toko Online Interaktif</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background-color: #f9f9f9;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .produk-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .produk {
+      background: #fff;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      width: 200px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .produk h3 {
+      margin-bottom: 5px;
+    }
+
+    .produk p {
+      margin-top: 0;
+      color: #888;
+    }
+
+    .produk button {
+      margin-top: 10px;
+      background-color: #2ecc71;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    #keranjang {
+      margin-top: 40px;
+      padding: 20px;
+      background-color: #f4f4f4;
+      border-left: 5px solid #27ae60;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #keranjang ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    #keranjang li {
+      padding: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #keranjang li button {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 4px 8px;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🛒 Toko Online Interaktif</h1>
+
+  <div class="produk-container">
+    <div class="produk">
+      <h3>Kaos</h3>
+      <p>Rp 50.000</p>
+      <button data-nama="Kaos" data-harga="50000">Beli</button>
+    </div>
+    <div class="produk">
+      <h3>Topi</h3>
+      <p>Rp 30.000</p>
+      <button data-nama="Topi" data-harga="30000">Beli</button>
+    </div>
+    <div class="produk">
+      <h3>Sepatu</h3>
+      <p>Rp 200.000</p>
+      <button data-nama="Sepatu" data-harga="200000">Beli</button>
+    </div>
+  </div>
+
+  <div id="keranjang">
+    <h2>🧾 Keranjang Belanja</h2>
+    <ul id="daftarKeranjang"></ul>
+    <p><strong>Total: </strong>Rp <span id="totalHarga">0</span></p>
+  </div>
+
+  <script>
+    const tombolBeli = document.querySelectorAll('.produk button');
+    const daftarKeranjang = document.getElementById('daftarKeranjang');
+    const totalHargaEl = document.getElementById('totalHarga');
+    let totalHarga = 0;
+
+    tombolBeli.forEach(button => {
+      button.addEventListener('click', function () {
+        const namaProduk = this.dataset.nama;
+        const hargaProduk = parseInt(this.dataset.harga);
+
+        const li = document.createElement('li');
+        li.innerHTML = `${namaProduk} - Rp ${hargaProduk.toLocaleString()} 
+                        <button class="hapus">Hapus</button>`;
+        li.dataset.harga = hargaProduk;
+
+        daftarKeranjang.appendChild(li);
+        totalHarga += hargaProduk;
+        totalHargaEl.textContent = totalHarga.toLocaleString();
+      });
+    });
+
+    daftarKeranjang.addEventListener('click', function (e) {
+      if (e.target.classList.contains('hapus')) {
+        const li = e.target.parentElement;
+        const hargaItem = parseInt(li.dataset.harga);
+        li.remove();
+        totalHarga -= hargaItem;
+        totalHargaEl.textContent = totalHarga.toLocaleString();
+      }
+    });
+  </script>
+
+</body>
+</html>
